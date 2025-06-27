@@ -27,6 +27,7 @@ const translations = {
     recentOrders: 'Recent Orders',
     retryPayment: 'Retry Payment',
     processing: 'Processing...',
+    welcomeBack: 'Welcome Back',
     
     // Orders
     manageOrders: 'Manage and track all your orders',
@@ -61,13 +62,16 @@ const translations = {
     saveConfiguration: 'Save Configuration',
     
     // Payments
-    paymentsOverview: 'Payments Overview',
-    managePayments: 'Manage all your payment transactions',
-    totalTransactions: 'Total Transactions',
-    successfulPayments: 'Successful Payments',
-    pendingPayments: 'Pending Payments',
-    failedPayments: 'Failed Payments',
-    recentTransactions: 'Recent Transactions',
+    paymentsDescription: 'Process payments and manage transactions',
+    makePayment: 'Make Payment',
+    paymentStatus: 'Payment Status',
+    processingPayment: 'Processing your payment...',
+    noActivePayments: 'No active payments at the moment',
+    processPayment: 'Process Payment',
+    enterAmount: 'Please enter an amount',
+    error: 'Error',
+    paymentSuccessful: 'Payment Successful!',
+    paymentProcessed: 'Payment has been processed for',
     
     // Status
     pending: 'Pending',
@@ -83,7 +87,6 @@ const translations = {
     orderCreatedDesc: 'New order has been added successfully.',
     paymentSimulationStarted: 'Payment Simulation Started',
     paymentProcessing: 'Processing payment... Please wait 5 seconds.',
-    paymentSuccessful: 'Payment Successful!',
     paymentSuccessfulDesc: 'The payment has been processed successfully.',
     paymentFailedTitle: 'Payment Failed',
     paymentFailedDesc: 'Payment processing failed. Please try again.',
@@ -107,6 +110,7 @@ const translations = {
     recentOrders: 'Maagizo ya Hivi Karibuni',
     retryPayment: 'Jaribu Malipo Tena',
     processing: 'Inachakata...',
+    welcomeBack: 'Karibu Tena',
     
     // Orders
     manageOrders: 'Simamia na ufuatilie maagizo yako yote',
@@ -141,13 +145,16 @@ const translations = {
     saveConfiguration: 'Hifadhi Usanidi',
     
     // Payments
-    paymentsOverview: 'Muhtasari wa Malipo',
-    managePayments: 'Simamia miamala yako yote ya malipo',
-    totalTransactions: 'Jumla ya Miamala',
-    successfulPayments: 'Malipo Yaliyofanikiwa',
-    pendingPayments: 'Malipo Yanayosubiri',
-    failedPayments: 'Malipo Yaliyoshindwa',
-    recentTransactions: 'Miamala ya Hivi Karibuni',
+    paymentsDescription: 'Chakata malipo na simamia miamala',
+    makePayment: 'Fanya Malipo',
+    paymentStatus: 'Hali ya Malipo',
+    processingPayment: 'Inachakata malipo yako...',
+    noActivePayments: 'Hakuna malipo yanayoendelea kwa sasa',
+    processPayment: 'Chakata Malipo',
+    enterAmount: 'Tafadhali ingiza kiasi',
+    error: 'Hitilafu',
+    paymentSuccessful: 'Malipo Yamefanikiwa!',
+    paymentProcessed: 'Malipo yamechakatwa kwa',
     
     // Status
     pending: 'Inasubiri',
@@ -163,7 +170,6 @@ const translations = {
     orderCreatedDesc: 'Agizo jipya limeongezwa kwa mafanikio.',
     paymentSimulationStarted: 'Jaribio la Malipo Limeanza',
     paymentProcessing: 'Inachakata malipo... Tafadhali subiri sekunde 5.',
-    paymentSuccessful: 'Malipo Yamefanikiwa!',
     paymentSuccessfulDesc: 'Malipo yamechakatwa kwa mafanikio.',
     paymentFailedTitle: 'Malipo Yameshindwa',
     paymentFailedDesc: 'Kuchakata malipo kumeshindwa. Tafadhali jaribu tena.',
@@ -173,7 +179,7 @@ const translations = {
 };
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [language, setLanguage] = useState<'en' | 'sw'>('sw');
+  const [language, setLanguage] = useState<'en' | 'sw'>('en'); // Changed default to English
 
   const t = (key: string): string => {
     return translations[language][key as keyof typeof translations[typeof language]] || key;

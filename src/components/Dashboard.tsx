@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { ShoppingBag, DollarSign, Clock, CheckCircle, AlertCircle } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/hooks/useLanguage';
+import { WelcomeMessage } from './WelcomeMessage';
 
 interface Order {
   id: string;
@@ -17,9 +18,9 @@ interface Order {
 
 export function Dashboard() {
   const [orders, setOrders] = useState<Order[]>([
-    { id: '1', product: 'Malipo ya Juu', amount: 299970, status: 'pending', createdAt: new Date() },
-    { id: '2', product: 'Kozi ya Kidijitali', amount: 149970, status: 'paid', createdAt: new Date(Date.now() - 86400000) },
-    { id: '3', product: 'Mazungumzo ya Ushauri', amount: 450000, status: 'failed', createdAt: new Date(Date.now() - 172800000) },
+    { id: '1', product: 'Safari Jacket - Premium', amount: 85000, status: 'pending', createdAt: new Date() },
+    { id: '2', product: 'Handcrafted Jewelry Set', amount: 45000, status: 'paid', createdAt: new Date(Date.now() - 86400000) },
+    { id: '3', product: 'Business Consultation', amount: 120000, status: 'failed', createdAt: new Date(Date.now() - 172800000) },
   ]);
   const { toast } = useToast();
   const { t, language } = useLanguage();
@@ -87,6 +88,11 @@ export function Dashboard() {
 
   return (
     <div className="space-y-6">
+      {/* Welcome Message */}
+      <div className="bg-gradient-to-r from-ghala-green to-ghala-green-dark rounded-lg p-6 animate-slide-up">
+        <WelcomeMessage userName="John Doe" />
+      </div>
+
       {/* Header */}
       <div className="animate-slide-up">
         <h1 className="text-3xl font-bold text-gray-900">{t('merchantDashboard')}</h1>

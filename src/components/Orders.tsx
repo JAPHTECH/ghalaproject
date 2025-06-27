@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -7,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { ShoppingBag, Plus, Clock, CheckCircle, AlertCircle } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { useLanguage } from '@/hooks/useLanguage';
 
 interface Order {
   id: string;
@@ -18,14 +18,15 @@ interface Order {
 
 export function Orders() {
   const [orders, setOrders] = useState<Order[]>([
-    { id: '1', product: 'Premium Subscription', amount: 99.99, status: 'pending', createdAt: new Date() },
-    { id: '2', product: 'Digital Course', amount: 49.99, status: 'paid', createdAt: new Date(Date.now() - 86400000) },
-    { id: '3', product: 'Consultation Call', amount: 150.00, status: 'failed', createdAt: new Date(Date.now() - 172800000) },
-    { id: '4', product: 'E-book Bundle', amount: 29.99, status: 'paid', createdAt: new Date(Date.now() - 259200000) },
+    { id: '1', product: 'Leather Handbag Collection', amount: 75000, status: 'pending', createdAt: new Date() },
+    { id: '2', product: 'Digital Marketing Course', amount: 35000, status: 'paid', createdAt: new Date(Date.now() - 86400000) },
+    { id: '3', product: 'Custom Web Design Package', amount: 250000, status: 'failed', createdAt: new Date(Date.now() - 172800000) },
+    { id: '4', product: 'Photography Session Bundle', amount: 95000, status: 'paid', createdAt: new Date(Date.now() - 259200000) },
   ]);
   const [showAddOrder, setShowAddOrder] = useState(false);
   const [newOrder, setNewOrder] = useState({ product: '', amount: '' });
   const { toast } = useToast();
+  const { t } = useLanguage();
 
   const simulatePayment = (orderId: string) => {
     setOrders(prev => prev.map(order => 
@@ -33,8 +34,8 @@ export function Orders() {
     ));
 
     toast({
-      title: "Payment Simulation Started",
-      description: "Processing payment... Please wait 5 seconds.",
+      title: t('paymentSimulationStarted'),
+      description: t('paymentProcessing'),
     });
 
     setTimeout(() => {
@@ -46,10 +47,10 @@ export function Orders() {
       ));
 
       toast({
-        title: success ? "Payment Successful!" : "Payment Failed",
+        title: success ? t('paymentSuccessful') : t('paymentFailedTitle'),
         description: success 
-          ? "The payment has been processed successfully." 
-          : "Payment processing failed. Please try again.",
+          ? t('paymentSuccessfulDesc')
+          : t('paymentFailedDesc'),
         variant: success ? "default" : "destructive",
       });
     }, 5000);
@@ -69,8 +70,8 @@ export function Orders() {
       setShowAddOrder(false);
       
       toast({
-        title: "Order Created",
-        description: "New order has been added successfully.",
+        title: t('orderCreated'),
+        description: t('orderCreatedDesc'),
       });
 
       // Auto-simulate payment after 2 seconds
@@ -101,7 +102,7 @@ export function Orders() {
     return (
       <Badge className={`${variants[status as keyof typeof variants]} border-0`}>
         {getStatusIcon(status)}
-        <span className="ml-1 capitalize">{status}</span>
+        <span className="ml-1 capitalize">{t(status)}</span>
       </Badge>
     );
   };
@@ -111,15 +112,15 @@ export function Orders() {
       {/* Header */}
       <div className="flex justify-between items-center animate-slide-up">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Orders</h1>
-          <p className="text-gray-600 mt-1">Manage and track all your orders</p>
+          <h1 className="text-3xl font-bold text-gray-900">{t('orders')}</h1>
+          <p className="text-gray-600 mt-1">{t('manageOrders')}</p>
         </div>
         <Button
           onClick={() => setShowAddOrder(true)}
           className="bg-ghala-green hover:bg-ghala-green-dark text-white"
         >
           <Plus className="h-4 w-4 mr-2" />
-          Add Order
+          {t('addOrder')}
         </Button>
       </div>
 
@@ -127,28 +128,27 @@ export function Orders() {
       {showAddOrder && (
         <Card className="animate-scale-in">
           <CardHeader>
-            <CardTitle>Create New Order</CardTitle>
+            <CardTitle>{t('createNewOrder')}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div>
-              <Label htmlFor="product">Product Name</Label>
+              <Label htmlFor="product">{t('productName')}</Label>
               <Input
                 id="product"
                 value={newOrder.product}
                 onChange={(e) => setNewOrder(prev => ({ ...prev, product: e.target.value }))}
-                placeholder="Enter product name"
+                placeholder={t('enterProductName')}
                 className="mt-1 focus:ring-ghala-green focus:border-ghala-green"
               />
             </div>
             <div>
-              <Label htmlFor="amount">Amount ($)</Label>
+              <Label htmlFor="amount">{t('amount')}</Label>
               <Input
                 id="amount"
                 type="number"
-                step="0.01"
                 value={newOrder.amount}
                 onChange={(e) => setNewOrder(prev => ({ ...prev, amount: e.target.value }))}
-                placeholder="0.00"
+                placeholder="50,000"
                 className="mt-1 focus:ring-ghala-green focus:border-ghala-green"
               />
             </div>
@@ -157,7 +157,7 @@ export function Orders() {
                 onClick={addOrder}
                 className="bg-ghala-green hover:bg-ghala-green-dark text-white"
               >
-                Create Order
+                {t('createOrder')}
               </Button>
               <Button
                 variant="outline"
@@ -166,7 +166,7 @@ export function Orders() {
                   setNewOrder({ product: '', amount: '' });
                 }}
               >
-                Cancel
+                {t('cancel')}
               </Button>
             </div>
           </CardContent>
@@ -195,10 +195,10 @@ export function Orders() {
             <CardContent className="space-y-4">
               <div className="flex justify-between items-center">
                 <span className="text-2xl font-bold text-gray-900">
-                  ${order.amount.toFixed(2)}
+                  TSh {order.amount.toLocaleString()}
                 </span>
                 <span className="text-sm text-gray-500">
-                  Order #{order.id}
+                  {t('order')} #{order.id}
                 </span>
               </div>
               
@@ -211,7 +211,7 @@ export function Orders() {
                   onClick={() => simulatePayment(order.id)}
                   className="w-full bg-ghala-green hover:bg-ghala-green-dark text-white relative overflow-hidden group"
                 >
-                  <span className="relative z-10">Simulate Payment</span>
+                  <span className="relative z-10">{t('simulatePayment')}</span>
                   <div className="absolute inset-0 bg-white opacity-25 transform scale-0 group-hover:scale-100 transition-transform duration-300 rounded-full"></div>
                 </Button>
               )}
@@ -219,14 +219,14 @@ export function Orders() {
               {order.status === 'pending' && (
                 <div className="flex items-center justify-center space-x-2 text-yellow-600">
                   <Clock className="h-4 w-4 animate-spin" />
-                  <span className="text-sm">Processing payment...</span>
+                  <span className="text-sm">{t('processingPayment')}</span>
                 </div>
               )}
 
               {order.status === 'paid' && (
                 <div className="flex items-center justify-center space-x-2 text-ghala-green">
                   <CheckCircle className="h-4 w-4" />
-                  <span className="text-sm font-medium">Payment Confirmed</span>
+                  <span className="text-sm font-medium">{t('paymentConfirmed')}</span>
                 </div>
               )}
             </CardContent>
