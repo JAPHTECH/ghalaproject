@@ -65,7 +65,6 @@ const translations = {
     paymentsDescription: 'Process payments and manage transactions',
     makePayment: 'Make Payment',
     paymentStatus: 'Payment Status',
-    processingPayment: 'Processing your payment...',
     noActivePayments: 'No active payments at the moment',
     processPayment: 'Process Payment',
     enterAmount: 'Please enter an amount',
@@ -86,7 +85,6 @@ const translations = {
     orderCreated: 'Order Created',
     orderCreatedDesc: 'New order has been added successfully.',
     paymentSimulationStarted: 'Payment Simulation Started',
-    paymentProcessing: 'Processing payment... Please wait 5 seconds.',
     paymentSuccessfulDesc: 'The payment has been processed successfully.',
     paymentFailedTitle: 'Payment Failed',
     paymentFailedDesc: 'Payment processing failed. Please try again.',
@@ -148,7 +146,6 @@ const translations = {
     paymentsDescription: 'Chakata malipo na simamia miamala',
     makePayment: 'Fanya Malipo',
     paymentStatus: 'Hali ya Malipo',
-    processingPayment: 'Inachakata malipo yako...',
     noActivePayments: 'Hakuna malipo yanayoendelea kwa sasa',
     processPayment: 'Chakata Malipo',
     enterAmount: 'Tafadhali ingiza kiasi',
@@ -169,7 +166,6 @@ const translations = {
     orderCreated: 'Agizo Limetengenezwa',
     orderCreatedDesc: 'Agizo jipya limeongezwa kwa mafanikio.',
     paymentSimulationStarted: 'Jaribio la Malipo Limeanza',
-    paymentProcessing: 'Inachakata malipo... Tafadhali subiri sekunde 5.',
     paymentSuccessfulDesc: 'Malipo yamechakatwa kwa mafanikio.',
     paymentFailedTitle: 'Malipo Yameshindwa',
     paymentFailedDesc: 'Kuchakata malipo kumeshindwa. Tafadhali jaribu tena.',
@@ -179,7 +175,7 @@ const translations = {
 };
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [language, setLanguage] = useState<'en' | 'sw'>('en'); // Changed default to English
+  const [language, setLanguage] = useState<'en' | 'sw'>('en');
 
   const t = (key: string): string => {
     return translations[language][key as keyof typeof translations[typeof language]] || key;
