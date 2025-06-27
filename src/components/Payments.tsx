@@ -32,7 +32,7 @@ export function Payments() {
       setProcessing(false);
       toast({
         title: t('paymentSuccessful'),
-        description: t('paymentProcessed', { amount }),
+        description: `${t('paymentProcessed')} TSH ${amount}`,
       });
       setAmount('');
     }, 3000);
