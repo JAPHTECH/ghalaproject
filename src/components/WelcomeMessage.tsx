@@ -1,11 +1,7 @@
 
 import { useState, useEffect } from 'react';
 
-interface WelcomeMessageProps {
-  userName?: string;
-}
-
-export function WelcomeMessage({ userName = 'Merchant' }: WelcomeMessageProps) {
+export function WelcomeMessage() {
   const [currentLangIndex, setCurrentLangIndex] = useState(0);
   
   const welcomeTexts = [
@@ -27,11 +23,10 @@ export function WelcomeMessage({ userName = 'Merchant' }: WelcomeMessageProps) {
 
   return (
     <div className="mb-6">
-      <h2 className="text-2xl font-bold">
-        <span className="text-ghala-green transition-all duration-500 ease-in-out">
+      <h2 className="text-4xl font-bold">
+        <span className="text-ghala-green transition-all duration-500 ease-in-out animate-fade-in">
           {welcomeTexts[currentLangIndex]}
         </span>
-        <span className="text-white ml-2">{userName}</span>
       </h2>
     </div>
   );

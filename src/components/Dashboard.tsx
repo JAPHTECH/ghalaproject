@@ -89,8 +89,8 @@ export function Dashboard() {
   return (
     <div className="space-y-6">
       {/* Welcome Message */}
-      <div className="bg-gradient-to-r from-ghala-green to-ghala-green-dark rounded-lg p-6 animate-slide-up">
-        <WelcomeMessage userName="John Doe" />
+      <div className="animate-slide-up">
+        <WelcomeMessage />
       </div>
 
       {/* Header */}
