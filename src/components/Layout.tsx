@@ -3,6 +3,10 @@ import { ReactNode } from 'react';
 import { Sidebar } from './Sidebar';
 import { Footer } from './Footer';
 import { LanguageSwitcher } from './LanguageSwitcher';
+import { Button } from '@/components/ui/button';
+import { LogOut } from 'lucide-react';
+import { useAuth } from '@/hooks/useAuth';
+import { useLanguage } from '@/hooks/useLanguage';
 import { Toaster } from '@/components/ui/toaster';
 
 interface LayoutProps {
@@ -10,6 +14,9 @@ interface LayoutProps {
 }
 
 export function Layout({ children }: LayoutProps) {
+  const { logout } = useAuth();
+  const { language } = useLanguage();
+
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
       {/* Header */}
@@ -25,7 +32,19 @@ export function Layout({ children }: LayoutProps) {
             </div>
             <h1 className="text-2xl font-bold text-gray-900">Ghala</h1>
           </div>
-          <LanguageSwitcher />
+          
+          <div className="flex items-center space-x-4">
+            <LanguageSwitcher />
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={logout}
+              className="text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-all duration-200"
+            >
+              <LogOut className="h-4 w-4 mr-2" />
+              {language === 'sw' ? 'Toka' : 'Logout'}
+            </Button>
+          </div>
         </div>
       </header>
 

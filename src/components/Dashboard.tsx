@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { ShoppingBag, DollarSign, Clock, CheckCircle, AlertCircle } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { useLanguage } from '@/hooks/useLanguage';
 
 interface Order {
   id: string;
@@ -16,11 +17,12 @@ interface Order {
 
 export function Dashboard() {
   const [orders, setOrders] = useState<Order[]>([
-    { id: '1', product: 'Premium Subscription', amount: 99.99, status: 'pending', createdAt: new Date() },
-    { id: '2', product: 'Digital Course', amount: 49.99, status: 'paid', createdAt: new Date(Date.now() - 86400000) },
-    { id: '3', product: 'Consultation Call', amount: 150.00, status: 'failed', createdAt: new Date(Date.now() - 172800000) },
+    { id: '1', product: 'Malipo ya Juu', amount: 299970, status: 'pending', createdAt: new Date() },
+    { id: '2', product: 'Kozi ya Kidijitali', amount: 149970, status: 'paid', createdAt: new Date(Date.now() - 86400000) },
+    { id: '3', product: 'Mazungumzo ya Ushauri', amount: 450000, status: 'failed', createdAt: new Date(Date.now() - 172800000) },
   ]);
   const { toast } = useToast();
+  const { t, language } = useLanguage();
 
   const simulatePayment = (orderId: string) => {
     setOrders(prev => prev.map(order => 
@@ -28,12 +30,12 @@ export function Dashboard() {
     ));
 
     toast({
-      title: "Payment Simulation Started",
-      description: "Processing payment... Please wait.",
+      title: t('paymentSimulationStarted'),
+      description: t('paymentProcessing'),
     });
 
     setTimeout(() => {
-      const success = Math.random() > 0.2; // 80% success rate
+      const success = Math.random() > 0.2;
       setOrders(prev => prev.map(order => 
         order.id === orderId 
           ? { ...order, status: success ? 'paid' : 'failed' } 
@@ -41,10 +43,8 @@ export function Dashboard() {
       ));
 
       toast({
-        title: success ? "Payment Successful!" : "Payment Failed",
-        description: success 
-          ? "The payment has been processed successfully." 
-          : "Payment processing failed. Please try again.",
+        title: success ? t('paymentSuccessful') : t('paymentFailedTitle'),
+        description: success ? t('paymentSuccessfulDesc') : t('paymentFailedDesc'),
         variant: success ? "default" : "destructive",
       });
     }, 5000);
@@ -71,9 +71,9 @@ export function Dashboard() {
     };
 
     return (
-      <Badge className={`${variants[status as keyof typeof variants]} border-0`}>
+      <Badge className={`${variants[status as keyof typeof variants]} border-0 transition-all duration-200 hover:scale-110`}>
         {getStatusIcon(status)}
-        <span className="ml-1 capitalize">{status}</span>
+        <span className="ml-1 capitalize">{t(status)}</span>
       </Badge>
     );
   };
@@ -89,26 +89,26 @@ export function Dashboard() {
     <div className="space-y-6">
       {/* Header */}
       <div className="animate-slide-up">
-        <h1 className="text-3xl font-bold text-gray-900">Merchant Dashboard</h1>
-        <p className="text-gray-600 mt-1">Monitor your orders and payments in real-time</p>
+        <h1 className="text-3xl font-bold text-gray-900">{t('merchantDashboard')}</h1>
+        <p className="text-gray-600 mt-1">{t('monitorOrders')}</p>
       </div>
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {[
-          { title: 'Total Orders', value: stats.totalOrders, icon: ShoppingBag, color: 'text-blue-600' },
-          { title: 'Pending Orders', value: stats.pendingOrders, icon: Clock, color: 'text-yellow-600' },
-          { title: 'Total Revenue', value: `$${stats.totalRevenue.toFixed(2)}`, icon: DollarSign, color: 'text-ghala-green' },
-          { title: 'Success Rate', value: `${stats.successRate}%`, icon: CheckCircle, color: 'text-ghala-green' },
+          { title: t('totalOrders'), value: stats.totalOrders, icon: ShoppingBag, color: 'text-blue-600' },
+          { title: t('pendingOrders'), value: stats.pendingOrders, icon: Clock, color: 'text-yellow-600' },
+          { title: t('totalRevenue'), value: `TSh ${stats.totalRevenue.toLocaleString()}`, icon: DollarSign, color: 'text-ghala-green' },
+          { title: t('successRate'), value: `${stats.successRate}%`, icon: CheckCircle, color: 'text-ghala-green' },
         ].map((stat, index) => (
           <Card 
             key={stat.title} 
-            className="hover:shadow-lg transition-all duration-300 hover:scale-105 animate-slide-up"
+            className="hover:shadow-lg transition-all duration-300 hover:scale-105 animate-slide-up cursor-pointer group"
             style={{ animationDelay: `${index * 100}ms` }}
           >
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium text-gray-600">{stat.title}</CardTitle>
-              <stat.icon className={`h-5 w-5 ${stat.color}`} />
+              <stat.icon className={`h-5 w-5 ${stat.color} transition-all duration-200 group-hover:scale-110`} />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-gray-900">{stat.value}</div>
@@ -122,7 +122,7 @@ export function Dashboard() {
         <CardHeader>
           <CardTitle className="flex items-center space-x-2">
             <ShoppingBag className="h-5 w-5 text-ghala-green" />
-            <span>Recent Orders</span>
+            <span>{t('recentOrders')}</span>
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -130,35 +130,35 @@ export function Dashboard() {
             {orders.map((order, index) => (
               <div 
                 key={order.id} 
-                className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-200 animate-fade-in"
+                className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-all duration-200 hover:scale-105 animate-fade-in group"
                 style={{ animationDelay: `${(index + 5) * 100}ms` }}
               >
                 <div className="flex items-center space-x-4">
-                  <div className="w-10 h-10 bg-ghala-green bg-opacity-10 rounded-full flex items-center justify-center">
+                  <div className="w-10 h-10 bg-ghala-green bg-opacity-10 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
                     <ShoppingBag className="h-5 w-5 text-ghala-green" />
                   </div>
                   <div>
                     <p className="font-medium text-gray-900">{order.product}</p>
                     <p className="text-sm text-gray-500">
-                      {order.createdAt.toLocaleDateString()} at {order.createdAt.toLocaleTimeString()}
+                      {order.createdAt.toLocaleDateString()} {language === 'sw' ? 'saa' : 'at'} {order.createdAt.toLocaleTimeString()}
                     </p>
                   </div>
                 </div>
                 <div className="flex items-center space-x-4">
-                  <span className="font-semibold text-gray-900">${order.amount.toFixed(2)}</span>
+                  <span className="font-semibold text-gray-900">TSh {order.amount.toLocaleString()}</span>
                   {getStatusBadge(order.status)}
                   {order.status === 'failed' && (
                     <Button
                       size="sm"
                       onClick={() => simulatePayment(order.id)}
-                      className="bg-ghala-green hover:bg-ghala-green-dark text-white relative overflow-hidden group"
+                      className="bg-ghala-green hover:bg-ghala-green-dark text-white relative overflow-hidden group hover:scale-105 transition-all duration-200"
                     >
-                      <span className="relative z-10">Retry Payment</span>
+                      <span className="relative z-10">{t('retryPayment')}</span>
                       <div className="absolute inset-0 bg-white opacity-25 transform scale-0 group-hover:scale-100 transition-transform duration-300 rounded-full"></div>
                     </Button>
                   )}
                   {order.status === 'pending' && (
-                    <div className="text-sm text-gray-500 animate-pulse">Processing...</div>
+                    <div className="text-sm text-gray-500 animate-pulse">{t('processing')}</div>
                   )}
                 </div>
               </div>

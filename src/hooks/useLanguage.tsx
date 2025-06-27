@@ -1,130 +1,182 @@
 
-import { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode } from 'react';
 
 interface LanguageContextType {
-  language: 'sw' | 'en';
-  setLanguage: (lang: 'sw' | 'en') => void;
-  t: (key: string, params?: Record<string, string>) => string;
+  language: 'en' | 'sw';
+  setLanguage: (lang: 'en' | 'sw') => void;
+  t: (key: string) => string;
 }
 
+const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
+
 const translations = {
-  sw: {
-    // Navigation
-    dashboard: 'Dashibodi',
-    orders: 'Maagizo',
-    settings: 'Mipangilio',
-    payments: 'Malipo',
-    
-    // Dashboard
-    totalRevenue: 'Mapato Jumla',
-    totalOrders: 'Maagizo Jumla',
-    pendingOrders: 'Maagizo Yanayosubiri',
-    completedOrders: 'Maagizo Yaliyokamilika',
-    recentOrders: 'Maagizo ya Hivi Karibuni',
-    
-    // Orders
-    orderId: 'Nambari ya Agizo',
-    customer: 'Mteja',
-    amount: 'Kiasi',
-    status: 'Hali',
-    date: 'Tarehe',
-    pending: 'Inasubiri',
-    paid: 'Imelipwa',
-    failed: 'Imeshindwa',
-    simulatePayment: 'Jaribisha Malipo',
-    
-    // Settings
-    merchantSettings: 'Mipangilio ya Mfanyabiashara',
-    paymentMethod: 'Njia ya Malipo',
-    mobileMoney: 'Pesa za Simu',
-    creditCard: 'Kadi ya Mkopo',
-    bankTransfer: 'Uhamisho wa Benki',
-    saveConfiguration: 'Hifadhi Mpangilio',
-    
-    // Payments
-    paymentsDescription: 'Simamia na kushughulikia malipo yako',
-    makePayment: 'Fanya Malipo',
-    paymentMethod: 'Njia ya Malipo',
-    processPayment: 'Shughulikia Malipo',
-    processing: 'Inashughulikiwa',
-    paymentStatus: 'Hali ya Malipo',
-    processingPayment: 'Malipo yanashughulikiwa...',
-    noActivePayments: 'Hakuna malipo yanayoendelea',
-    paymentSuccessful: 'Malipo Yamefanikiwa',
-    paymentProcessed: 'Malipo ya TSH {{amount}} yameshughulikiwa',
-    
-    // Common
-    error: 'Hitilafu',
-    enterAmount: 'Tafadhali ingiza kiasi',
-    currency: 'TSH',
-  },
   en: {
     // Navigation
     dashboard: 'Dashboard',
     orders: 'Orders',
-    settings: 'Settings',
     payments: 'Payments',
+    settings: 'Settings',
     
     // Dashboard
-    totalRevenue: 'Total Revenue',
+    merchantDashboard: 'Merchant Dashboard',
+    monitorOrders: 'Monitor your orders and payments in real-time',
     totalOrders: 'Total Orders',
     pendingOrders: 'Pending Orders',
-    completedOrders: 'Completed Orders',
+    totalRevenue: 'Total Revenue',
+    successRate: 'Success Rate',
     recentOrders: 'Recent Orders',
+    retryPayment: 'Retry Payment',
+    processing: 'Processing...',
     
     // Orders
-    orderId: 'Order ID',
-    customer: 'Customer',
-    amount: 'Amount',
-    status: 'Status',
-    date: 'Date',
-    pending: 'Pending',
-    paid: 'Paid',
-    failed: 'Failed',
+    manageOrders: 'Manage and track all your orders',
+    addOrder: 'Add Order',
+    createNewOrder: 'Create New Order',
+    productName: 'Product Name',
+    enterProductName: 'Enter product name',
+    amount: 'Amount (TSh)',
+    createOrder: 'Create Order',
+    cancel: 'Cancel',
     simulatePayment: 'Simulate Payment',
+    paymentConfirmed: 'Payment Confirmed',
+    processingPayment: 'Processing payment...',
     
     // Settings
     merchantSettings: 'Merchant Settings',
+    configurePayment: 'Configure your payment methods and preferences',
     paymentMethod: 'Payment Method',
+    selectPaymentMethod: 'Select Payment Method',
     mobileMoney: 'Mobile Money',
-    creditCard: 'Credit Card',
+    creditCard: 'Credit/Debit Card',
     bankTransfer: 'Bank Transfer',
+    paymentConfiguration: 'Payment Configuration',
+    mobileProvider: 'Mobile Money Provider',
+    phoneNumber: 'Phone Number',
+    cardProvider: 'Card Payment Provider',
+    apiKey: 'API Key',
+    merchantId: 'Merchant ID',
+    bankProvider: 'Bank Provider',
+    accountNumber: 'Account Number',
+    routingNumber: 'Routing Number',
     saveConfiguration: 'Save Configuration',
     
     // Payments
-    paymentsDescription: 'Manage and process your payments',
-    makePayment: 'Make Payment',
-    paymentMethod: 'Payment Method',
-    processPayment: 'Process Payment',
-    processing: 'Processing',
-    paymentStatus: 'Payment Status',
-    processingPayment: 'Processing payment...',
-    noActivePayments: 'No active payments',
-    paymentSuccessful: 'Payment Successful',
-    paymentProcessed: 'Payment of TSH {{amount}} has been processed',
+    paymentsOverview: 'Payments Overview',
+    managePayments: 'Manage all your payment transactions',
+    totalTransactions: 'Total Transactions',
+    successfulPayments: 'Successful Payments',
+    pendingPayments: 'Pending Payments',
+    failedPayments: 'Failed Payments',
+    recentTransactions: 'Recent Transactions',
+    
+    // Status
+    pending: 'Pending',
+    paid: 'Paid',
+    failed: 'Failed',
     
     // Common
-    error: 'Error',
-    enterAmount: 'Please enter an amount',
-    currency: 'TSH',
+    save: 'Save',
+    order: 'Order',
+    
+    // Toast messages
+    orderCreated: 'Order Created',
+    orderCreatedDesc: 'New order has been added successfully.',
+    paymentSimulationStarted: 'Payment Simulation Started',
+    paymentProcessing: 'Processing payment... Please wait 5 seconds.',
+    paymentSuccessful: 'Payment Successful!',
+    paymentSuccessfulDesc: 'The payment has been processed successfully.',
+    paymentFailedTitle: 'Payment Failed',
+    paymentFailedDesc: 'Payment processing failed. Please try again.',
+    settingsSaved: 'Settings Saved',
+    settingsSavedDesc: 'Your payment configuration has been updated successfully.',
+  },
+  sw: {
+    // Navigation
+    dashboard: 'Dashibodi',
+    orders: 'Maagizo',
+    payments: 'Malipo',
+    settings: 'Mipangilio',
+    
+    // Dashboard
+    merchantDashboard: 'Dashibodi ya Mfanyabiashara',
+    monitorOrders: 'Fuatilia maagizo na malipo yako kwa wakati halisi',
+    totalOrders: 'Jumla ya Maagizo',
+    pendingOrders: 'Maagizo Yanayosubiri',
+    totalRevenue: 'Jumla ya Mapato',
+    successRate: 'Kiwango cha Mafanikio',
+    recentOrders: 'Maagizo ya Hivi Karibuni',
+    retryPayment: 'Jaribu Malipo Tena',
+    processing: 'Inachakata...',
+    
+    // Orders
+    manageOrders: 'Simamia na ufuatilie maagizo yako yote',
+    addOrder: 'Ongeza Agizo',
+    createNewOrder: 'Tengeneza Agizo Jipya',
+    productName: 'Jina la Bidhaa',
+    enterProductName: 'Ingiza jina la bidhaa',
+    amount: 'Kiasi (TSh)',
+    createOrder: 'Tengeneza Agizo',
+    cancel: 'Ghairi',
+    simulatePayment: 'Jaribisha Malipo',
+    paymentConfirmed: 'Malipo Yamethibitishwa',
+    processingPayment: 'Inachakata malipo...',
+    
+    // Settings
+    merchantSettings: 'Mipangilio ya Mfanyabiashara',
+    configurePayment: 'Sanidi njia zako za malipo na mapendeleo',
+    paymentMethod: 'Njia ya Malipo',
+    selectPaymentMethod: 'Chagua Njia ya Malipo',
+    mobileMoney: 'Pesa za Simu',
+    creditCard: 'Kadi ya Mkopo/Debiti',
+    bankTransfer: 'Uhamishaji wa Benki',
+    paymentConfiguration: 'Usanidi wa Malipo',
+    mobileProvider: 'Mtoa Huduma za Pesa za Simu',
+    phoneNumber: 'Nambari ya Simu',
+    cardProvider: 'Mtoa Huduma za Kadi',
+    apiKey: 'Ufunguo wa API',
+    merchantId: 'Kitambulisho cha Mfanyabiashara',
+    bankProvider: 'Mtoa Huduma za Benki',
+    accountNumber: 'Nambari ya Akaunti',
+    routingNumber: 'Nambari ya Uelekezo',
+    saveConfiguration: 'Hifadhi Usanidi',
+    
+    // Payments
+    paymentsOverview: 'Muhtasari wa Malipo',
+    managePayments: 'Simamia miamala yako yote ya malipo',
+    totalTransactions: 'Jumla ya Miamala',
+    successfulPayments: 'Malipo Yaliyofanikiwa',
+    pendingPayments: 'Malipo Yanayosubiri',
+    failedPayments: 'Malipo Yaliyoshindwa',
+    recentTransactions: 'Miamala ya Hivi Karibuni',
+    
+    // Status
+    pending: 'Inasubiri',
+    paid: 'Imelipwa',
+    failed: 'Imeshindwa',
+    
+    // Common
+    save: 'Hifadhi',
+    order: 'Agizo',
+    
+    // Toast messages
+    orderCreated: 'Agizo Limetengenezwa',
+    orderCreatedDesc: 'Agizo jipya limeongezwa kwa mafanikio.',
+    paymentSimulationStarted: 'Jaribio la Malipo Limeanza',
+    paymentProcessing: 'Inachakata malipo... Tafadhali subiri sekunde 5.',
+    paymentSuccessful: 'Malipo Yamefanikiwa!',
+    paymentSuccessfulDesc: 'Malipo yamechakatwa kwa mafanikio.',
+    paymentFailedTitle: 'Malipo Yameshindwa',
+    paymentFailedDesc: 'Kuchakata malipo kumeshindwa. Tafadhali jaribu tena.',
+    settingsSaved: 'Mipangilio Imehifadhiwa',
+    settingsSavedDesc: 'Usanidi wako wa malipo umesasishwa kwa mafanikio.',
   }
 };
 
-const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
-
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [language, setLanguage] = useState<'sw' | 'en'>('sw');
+  const [language, setLanguage] = useState<'en' | 'sw'>('sw');
 
-  const t = (key: string, params?: Record<string, string>) => {
-    let translation = translations[language][key as keyof typeof translations['sw']] || key;
-    
-    if (params) {
-      Object.entries(params).forEach(([param, value]) => {
-        translation = translation.replace(`{{${param}}}`, value);
-      });
-    }
-    
-    return translation;
+  const t = (key: string): string => {
+    return translations[language][key as keyof typeof translations[typeof language]] || key;
   };
 
   return (
