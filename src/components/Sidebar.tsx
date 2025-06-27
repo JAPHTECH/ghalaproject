@@ -3,16 +3,18 @@ import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Home, Settings, ShoppingBag, CreditCard, Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-
-const navigation = [
-  { name: 'Dashboard', href: '/', icon: Home },
-  { name: 'Orders', href: '/orders', icon: ShoppingBag },
-  { name: 'Settings', href: '/settings', icon: Settings },
-  { name: 'Payments', href: '/payments', icon: CreditCard },
-];
+import { useLanguage } from '@/hooks/useLanguage';
 
 export function Sidebar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { t } = useLanguage();
+
+  const navigation = [
+    { name: t('dashboard'), href: '/', icon: Home },
+    { name: t('orders'), href: '/orders', icon: ShoppingBag },
+    { name: t('payments'), href: '/payments', icon: CreditCard },
+    { name: t('settings'), href: '/settings', icon: Settings },
+  ];
 
   return (
     <>
@@ -47,9 +49,13 @@ export function Sidebar() {
           <div className="flex items-center justify-center h-16 px-4 border-b border-gray-200">
             <div className="flex items-center space-x-2">
               <div className="w-8 h-8 bg-ghala-green rounded-lg flex items-center justify-center">
-                <ShoppingBag className="h-5 w-5 text-white" />
+                <img 
+                  src="/lovable-uploads/cbd62e89-dfdc-4462-ad21-aaea3e0c7174.png" 
+                  alt="Ghala" 
+                  className="w-5 h-5"
+                />
               </div>
-              <span className="text-xl font-bold text-gray-900">Commerce</span>
+              <span className="text-xl font-bold text-gray-900">Ghala</span>
             </div>
           </div>
 
@@ -81,8 +87,8 @@ export function Sidebar() {
                 <span className="text-sm font-medium text-white">M</span>
               </div>
               <div>
-                <p className="text-sm font-medium text-gray-900">Merchant</p>
-                <p className="text-xs text-gray-500">merchant@example.com</p>
+                <p className="text-sm font-medium text-gray-900">Mfanyabiashara</p>
+                <p className="text-xs text-gray-500">mfanyabiashara@ghala.tz</p>
               </div>
             </div>
           </div>
