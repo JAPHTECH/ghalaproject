@@ -21,6 +21,7 @@ Each merchant’s payment method and settings are stored in a structured object:
   }
 }
 
+
 ## Order Processing
 - Orders are linked to the merchant and stored with:
   - order ID
