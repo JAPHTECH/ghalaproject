@@ -20,31 +20,3 @@ Each merchant’s payment method and settings are stored in a structured object:
     "config": { "accountNumber": "07xxxxxxxx" }
   }
 }
-
-
-## Order Processing
-- Orders are linked to the merchant and stored with:
-  - order ID
-  - merchant ID
-  - status: `pending`, `paid`, or `failed`
-- A mock function simulates payment confirmation — after 5 seconds, status updates to `paid`.
-
----
-
-## Extending for Commission Rates
-To support **merchant-specific commission rates**:
-- Add a `commissionRate` field to the merchant config:
-```json
-{
-  "merchantId": "merchant-123",
-  "commissionRate": 0.05
-}
-
-**##Scaling to 10,000+ Merchants**
-If scaling to thousands of merchants:
-
-Move merchant configs + orders to a database (e.g. PostgreSQL, MongoDB)
-Introduce async jobs (queues) for payment confirmation (e.g. BullMQ, Redis)
-Use caching (e.g. Redis) for frequently accessed merchant configs
-Add pagination + filters to the frontend for large data sets
-Containerize the app (e.g. Docker + orchestration
