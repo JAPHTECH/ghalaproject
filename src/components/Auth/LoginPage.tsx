@@ -43,7 +43,7 @@ export function LoginPage({ onLogin }: LoginPageProps) {
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-3 sm:p-4">
       <div className="w-full max-w-sm sm:max-w-md">
-        {/* Header with logo and language switcher */}
+        {/* Header with logo and tagline */}
         <div className="text-center mb-6 sm:mb-8">
           <div className="flex items-center justify-center space-x-3 mb-4">
             <div className="w-10 h-10 sm:w-12 sm:h-12 bg-ghala-green rounded-lg flex items-center justify-center">
@@ -56,15 +56,11 @@ export function LoginPage({ onLogin }: LoginPageProps) {
             <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Ghala</h1>
           </div>
           
-          <div className="flex justify-center">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setLanguage(language === 'sw' ? 'en' : 'sw')}
-              className="text-sm font-medium hover:bg-gray-100 px-3 py-2"
-            >
-              {language === 'sw' ? 'Switch to English' : 'Badili kwa Kiswahili'}
-            </Button>
+          <div className="text-center">
+            <p className="text-sm sm:text-base font-medium text-ghala-green px-4">
+              Rahisisha Mauzo Yako. Uza Moja Kwa Moja<br />
+              Kupitia WhatsApp
+            </p>
           </div>
         </div>
 

@@ -13,7 +13,7 @@ export function Settings() {
   const [config, setConfig] = useState({
     mobile: { provider: 'M-Pesa', phoneNumber: '' },
     card: { provider: 'Stripe', apiKey: '', merchantId: '' },
-    bank: { provider: 'Bank Transfer', accountNumber: '', routingNumber: '' }
+    bank: { provider: 'CRDB Bank', accountNumber: '', routingNumber: '' }
   });
   const { toast } = useToast();
 
@@ -38,6 +38,18 @@ export function Settings() {
       case 'bank': return <Building2 className="h-5 w-5 text-ghala-green" />;
       default: return null;
     }
+  };
+
+  const getBankLogo = (bankName: string) => {
+    const logos: { [key: string]: string } = {
+      'CRDB Bank': '/lovable-uploads/44d025ed-c039-4160-bb4a-d831b0181b41.png',
+      'NMB Bank': '/lovable-uploads/0ee31b12-e71e-495c-892d-57a5560cdb7e.png',
+      'NBC Bank': '/lovable-uploads/15a14c13-bcb1-4cff-a500-05876d03b904.png',
+      'Equity Bank': '/lovable-uploads/d034c5fe-cded-41ae-9666-f2c18898ae84.png',
+      'Stanbic Bank': '/lovable-uploads/e48ed429-c91d-4756-9d36-02711f7ed778.png',
+      'Standard Chartered': '/lovable-uploads/855a4c22-ad60-4718-b775-f990fef743dd.png'
+    };
+    return logos[bankName] || null;
   };
 
   return (
@@ -198,9 +210,42 @@ export function Settings() {
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent className="bg-white border shadow-lg">
-                      <SelectItem value="Bank Transfer">Direct Bank Transfer</SelectItem>
-                      <SelectItem value="ACH">ACH Transfer</SelectItem>
-                      <SelectItem value="Wire Transfer">Wire Transfer</SelectItem>
+                      <SelectItem value="CRDB Bank">
+                        <div className="flex items-center space-x-2">
+                          <img src={getBankLogo('CRDB Bank')} alt="CRDB Bank" className="w-6 h-6 object-contain" />
+                          <span>CRDB Bank</span>
+                        </div>
+                      </SelectItem>
+                      <SelectItem value="NMB Bank">
+                        <div className="flex items-center space-x-2">
+                          <img src={getBankLogo('NMB Bank')} alt="NMB Bank" className="w-6 h-6 object-contain" />
+                          <span>NMB Bank</span>
+                        </div>
+                      </SelectItem>
+                      <SelectItem value="NBC Bank">
+                        <div className="flex items-center space-x-2">
+                          <img src={getBankLogo('NBC Bank')} alt="NBC Bank" className="w-6 h-6 object-contain" />
+                          <span>NBC Bank</span>
+                        </div>
+                      </SelectItem>
+                      <SelectItem value="Equity Bank">
+                        <div className="flex items-center space-x-2">
+                          <img src={getBankLogo('Equity Bank')} alt="Equity Bank" className="w-6 h-6 object-contain" />
+                          <span>Equity Bank</span>
+                        </div>
+                      </SelectItem>
+                      <SelectItem value="Stanbic Bank">
+                        <div className="flex items-center space-x-2">
+                          <img src={getBankLogo('Stanbic Bank')} alt="Stanbic Bank" className="w-6 h-6 object-contain" />
+                          <span>Stanbic Bank</span>
+                        </div>
+                      </SelectItem>
+                      <SelectItem value="Standard Chartered">
+                        <div className="flex items-center space-x-2">
+                          <img src={getBankLogo('Standard Chartered')} alt="Standard Chartered" className="w-6 h-6 object-contain" />
+                          <span>Standard Chartered</span>
+                        </div>
+                      </SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
