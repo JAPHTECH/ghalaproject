@@ -3,6 +3,7 @@ import { ReactNode } from 'react';
 import { Sidebar } from './Sidebar';
 import { Footer } from './Footer';
 import { LanguageSwitcher } from './LanguageSwitcher';
+import { FloatingQRCard } from './FloatingQRCard';
 import { Button } from '@/components/ui/button';
 import { LogOut } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
@@ -57,6 +58,8 @@ export function Layout({ children }: LayoutProps) {
           <Footer />
         </div>
       </div>
+      
+      <FloatingQRCard />
       <Toaster />
     </div>
   );

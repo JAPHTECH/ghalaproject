@@ -12,6 +12,7 @@ export function Payments() {
   const [amount, setAmount] = useState('');
   const [processing, setProcessing] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState('mobile');
+  const [mobileProvider, setMobileProvider] = useState('m-pesa');
   const { toast } = useToast();
   const { t } = useLanguage();
 
@@ -42,6 +43,14 @@ export function Payments() {
     { id: 'mobile', name: t('mobileMoney'), icon: Smartphone },
     { id: 'card', name: t('creditCard'), icon: CreditCard },
     { id: 'bank', name: t('bankTransfer'), icon: Building2 },
+  ];
+
+  const mobileProviders = [
+    { id: 'm-pesa', name: 'M-Pesa', logo: '/lovable-uploads/5c0f6fac-faae-465a-8919-26530c695913.png' },
+    { id: 'airtel', name: 'Airtel Money', logo: '/lovable-uploads/c15034d7-ec65-41e6-9f70-280b2d52fde2.png' },
+    { id: 'tigo', name: 'Tigo Pesa', logo: '/lovable-uploads/52f60fd1-bbe0-45b0-a668-f88b8708ad7e.png' },
+    { id: 'halopesa', name: 'HaloPesa', logo: '/lovable-uploads/edbf6f59-5222-48bb-8017-fd47d1648b7b.png' },
+    { id: 'zantel', name: 'Zantel', logo: '/lovable-uploads/175d3de8-f7db-48fc-9509-676096e528e0.png' },
   ];
 
   return (
@@ -96,6 +105,37 @@ export function Payments() {
                 ))}
               </div>
             </div>
+
+            {/* Mobile Money Provider Selection */}
+            {paymentMethod === 'mobile' && (
+              <div className="animate-fade-in">
+                <Label>Mobile Money Provider</Label>
+                <div className="grid grid-cols-2 gap-3 mt-2">
+                  {mobileProviders.map((provider) => (
+                    <Button
+                      key={provider.id}
+                      variant={mobileProvider === provider.id ? "default" : "outline"}
+                      onClick={() => setMobileProvider(provider.id)}
+                      className={`h-16 p-2 transition-all duration-200 ${
+                        mobileProvider === provider.id 
+                          ? 'bg-ghala-green hover:bg-ghala-green-dark text-white border-ghala-green' 
+                          : 'hover:border-ghala-green'
+                      }`}
+                      disabled={processing}
+                    >
+                      <div className="flex flex-col items-center space-y-1">
+                        <img 
+                          src={provider.logo} 
+                          alt={provider.name}
+                          className="h-6 w-auto object-contain"
+                        />
+                        <span className="text-xs font-medium">{provider.name}</span>
+                      </div>
+                    </Button>
+                  ))}
+                </div>
+              </div>
+            )}
 
             <Button 
               onClick={handlePayment}
